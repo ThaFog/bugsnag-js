@@ -29,10 +29,15 @@ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(configure) {
   };
 }
 
-RCT_EXPORT_METHOD(updateMetadata
-                  :(NSString *)section
-          withData:(NSDictionary *)update) {
-  //TODO
+RCT_EXPORT_METHOD(updateMetadata:(NSString *)section
+                        withData:(NSDictionary *)update) {
+    if (update == nil) {
+        [Bugsnag clearMetadataInSection:section];
+    } else {
+        for (id key in update) {
+            [Bugsnag addMetadataToSection:section key:key value:update[key]];
+        }
+    }
 }
 
 RCT_EXPORT_METHOD(updateContext
